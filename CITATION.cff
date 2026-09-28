@@ -1,0 +1,23 @@
+cff-version: 1.2.0
+message: "If you use TRACE, please cite the accompanying manuscript."
+title: "TRACE: Token Retrieval And Cooperative Experts"
+type: software
+authors:
+  - family-names: Yuan
+    given-names: Ruizhi
+  - family-names: Zhao
+    given-names: Chongyue
+  - family-names: Liu
+    given-names: Tianhao
+  - family-names: Wang
+    given-names: Qian
+  - family-names: Yu
+    given-names: Zeqiu
+  - family-names: Tang
+    given-names: Lu
+  - family-names: Huang
+    given-names: Heng
+  - family-names: Chen
+    given-names: Wei
+repository-code: "https://github.com/yrzzz/TRACE"
+abstract: "Code accompanying Learning Where to Look: Pathologist-Inspired Multi-Field-of-View Evidence Retrieval for Cell Type Classification in H&E."

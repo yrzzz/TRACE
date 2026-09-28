@@ -1,0 +1,40 @@
+{
+  "source_project": "skin_cell_experts",
+  "source_sha256": {
+    "models/local_attn_pool.py": "8f0f0b2f61d21b6696cbebe8aa85b14823392ea1b3054e6cfa6191fd6bfaeb28",
+    "models/gate.py": "2e595fec12c43221a66b66d4167118bb86ff8a83319dfdbbafa338a5009181c6",
+    "models/uni_tokens.py": "1953520eb649f7507ce30c08210999f2534e6e7ffe5fe2dac2ef4db9fc7de9e5",
+    "models/dino_tokens.py": "12238c19ac8ba238990a661a6faff271bf890267753240efec068b5cbce60832",
+    "losses/coop_moe_loss.py": "19dba77bcece913c226bd92a6d3ed630f5c27341cc0648ee7b75f84b53d8eddd",
+    "datasets/skin_cells.py": "6a00f19f97dc789ded3aeadb74b10d48881de48b8d25b14aa43dc176dbda1f60",
+    "utils/io.py": "c6b92ef15712c1a986b32d3f301e447bc2a966f3876b4949121f864e2a4798fe",
+    "utils/seed.py": "ca70203aca311a02d2bc041dc4a49db6397aa20fe4f4d591ebf857658ffa8c2f",
+    "utils/metrics.py": "308890ef33d7ed4287193b3409a60e7a427ee7d9630ece680ea73b09d5ccc19e",
+    "xenium_prepare.py": "3cb2782e6e3ed131e9c006cfb27be8edd80b0a9a515ebb38cfd1d77ee8840d10",
+    "data/xenium_dataset.py": "5b186312c790ad1c35b895ac0ae77bb48503d2e0a3fa54eba178158f5d5c9f40",
+    "models/experts.py": "82c026808730af82261cd51356fa36d83171a5bb424001123f6fea3623def61e",
+    "models/pooling.py": "586e085c6ebc7b627e67272a33f9e9cdb64b2e4b83043d46daf6509beed1e2ba",
+    "models/model.py": "0dcb816af1ea8a10ee73a81098f40eaaedbd58682017a9cb767f762c18681621",
+    "utils/losses.py": "fd11e143f6fa6216bce8b3a6d07de0f87f1d2d0286d120acd68cf03ee365e13d",
+    "out/xenium_lung_level2_e1attn_e2e3attn_coop/config.json": "15e064fd927fd2cd70f9970434850899030934af8b423eba9ab4ce7d8150cdeb",
+    "out/xenium_skin_level2_e1attn_e2e3attn_coop/config.json": "f879fae00af7f5593aed19be28bccc6ac8166ce61dec9e705efa3afa2c0628ec",
+    "utils/diagnostics.py": "7a405ab78e410c7363858ccc1544658583da56e0d87d8c46cc5fcd8080333d64"
+  },
+  "paper_sha256": "67ebf86b9f3a363d03b527fbf27c7366029ecc0a4594e7fafd0e6fb1a72364c2",
+  "annotations": [
+    {
+      "file": "lung_cancer_annotation.csv.gz",
+      "original_bytes": 16477645,
+      "compressed_bytes": 1452037,
+      "original_sha256": "e2784c0bb58ee01b0c0f3baa15f926a6b39597806b249a8ac50dd51d36be1f7b",
+      "compressed_sha256": "16d5704ee35b83e4c8f2ffdd52af8db1f73ca82beb6627528d36246137ab42d2"
+    },
+    {
+      "file": "skin_cancer_annotation_no_unknown.csv.gz",
+      "original_bytes": 6282607,
+      "compressed_bytes": 548471,
+      "original_sha256": "77a0cf32941e52daf623b9720ad533a179280fb1c198780d7f132b01548310a9",
+      "compressed_sha256": "c97c0f6a7e5453a890ded7a7a29472cccedf8fc43cf942affa1ccde8e4a2479f"
+    }
+  ]
+}
