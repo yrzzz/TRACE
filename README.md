@@ -2,9 +2,10 @@
 
 **Token Retrieval And Cooperative Experts** for cell-type classification in H&E.
 
-Code accompanying *Learning Where to Look: Pathologist-Inspired Multi-Field-of-View
-Evidence Retrieval for Cell Type Classification in H&E* by Ruizhi Yuan, Chongyue
-Zhao, Tianhao Liu, Qian Wang, Zeqiu Yu, Lu Tang, Heng Huang, and Wei Chen.
+Code accompanying [*Learning Where to Look: Pathologist-Inspired Multi-Field-of-View
+Evidence Retrieval for Cell Type Classification in H&E*](https://papers.miccai.org/miccai-2026/0578-Paper4161.html)
+(**MICCAI 2026**), by Ruizhi Yuan, Chongyue Zhao, Tianhao Liu, Qian Wang, Zeqiu Yu,
+Lu Tang, Heng Huang, and Wei Chen.
 
 TRACE combines cell morphology, local neighborhoods, and tissue context through
 three cooperative experts. Query-guided attention retrieves evidence from each
