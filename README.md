@@ -6,17 +6,18 @@ Code accompanying *Learning Where to Look: Pathologist-Inspired Multi-Field-of-V
 Evidence Retrieval for Cell Type Classification in H&E* by Ruizhi Yuan, Chongyue
 Zhao, Tianhao Liu, Qian Wang, Zeqiu Yu, Lu Tang, Heng Huang, and Wei Chen.
 
-This repository contains the three-expert main method only. It was extracted from
-the `experts_e1attn_e2e3attn` + `coop_moe` experimental implementation. There are
-no baseline training modes or ablation runners.
+TRACE combines cell morphology, local neighborhoods, and tissue context through
+three cooperative experts. Query-guided attention retrieves evidence from each
+field of view, and an uncertainty-aware router combines the expert predictions.
+This repository provides data preparation, training, evaluation, and evidence-map
+visualization for TRACE.
 
-**Reproducibility status:** the available experiment code and saved configurations
-differ from parts of the manuscript, including key projections, context queries,
-crop size, training schedule, and validation splitting. These differences are
-listed in [the implementation notes](docs/implementation.md). The supplied configs
-describe the available runs; they are not a claim that the manuscript's tables can
-be exactly reproduced from this release. The paper's spatial split manifest and
-trained checkpoints are not included.
+**Implementation notes:** the supplied implementation and configurations differ
+from parts of the manuscript in key projections, context queries, crop size,
+training schedule, and validation splitting. See [implementation details](docs/implementation.md)
+for the precise settings. The manuscript's spatial split manifest and trained
+checkpoints are not included, so exact reproduction of its reported tables is not
+established by the supplied configurations.
 
 ## Model
 
@@ -32,7 +33,7 @@ trained checkpoints are not included.
 | Backbones | Frozen UNI2-h and DINOv3-base; trainable attention projections, expert heads, and router |
 
 The local field of view is cropped at 256 x 256 pixels and resized to 224 x 224
-for UNI in the saved runs. The 1024 x 1024 context crop is resized to 256 x 256
+for UNI in the provided configurations. The 1024 x 1024 context crop is resized to 256 x 256
 for DINO. These are image pixels, not micrometres. Evidence PNGs visualize the
 softmax weights used during pooling; the exported `.npy` retains their actual
 normalized values.
@@ -74,9 +75,9 @@ Only these compressed cell-ID/cell-type tables are provided:
 | `annotations/lung_cancer_annotation.csv.gz` | About 1.45 MB | `level_2` |
 | `annotations/skin_cancer_annotation_no_unknown.csv.gz` | About 0.55 MB | `level_3` |
 
-These are byte-preserving compressed copies of the corresponding local annotation
-CSVs. Skin uses the existing no-unknown table. Checksums are in
-`docs/source_manifest.json`. See [annotation provenance](annotations/README.md).
+The tables contain cell IDs and hierarchical cell-type annotations. The skin
+table excludes unknown cells. Checksums are in `docs/source_manifest.json`;
+see [annotation details](annotations/README.md) for their format and data sources.
 
 **No H&E images, Visium HD labels, polygons, expression matrices, embedding caches,
 training outputs, or pretrained/trained weights are included.** The manuscript PDF
@@ -189,7 +190,7 @@ example-cell-2,1,T_cell
 
 `configs/visium_hd.json` is a data-interface template with slide-group validation,
 not the manuscript's unavailable in-house split. Set `label_col` to an existing
-CSV column for multiclass training. The retained adapter also accepts selected
+CSV column for multiclass training. The dataset adapter also accepts selected
 cell-type names for target-versus-others tasks. Whole-slide images in this adapter
 are loaded into memory; worker count affects RAM use.
 
@@ -208,19 +209,16 @@ python train.py --config configs/xenium_lung.json \
   --out_dir runs/lung_small_batch --batch_size 64 --num_workers 4 --save_attention
 ```
 
-There is one model, one router, and one objective. E1 queries both attention pools;
-cosine attention, no Gaussian bias, unit expert probability temperatures, load
-balance, and JS conflict focus are fixed to the extracted run configuration.
-Dataset paths and numerical training parameters are in JSON. The release runner
-uses one device per process; it does not launch distributed training.
+E1 queries both attention pools using cosine attention without Gaussian bias.
+Expert probabilities use unit temperatures; training includes load balancing and
+JS conflict weighting. Dataset paths and numerical training parameters are
+specified in JSON. Training uses one device per process.
 
-**No pooled-feature extraction step is needed.** The frozen encoders generate
-patch tokens during the forward pass. A legacy `emb_cell/emb_local/emb_ctx` NPZ
-cannot train this token-attention model, because spatial token information has
-already been pooled away.
+The frozen encoders generate patch tokens during the forward pass; no separate
+feature-extraction step is needed. Training requires spatial patch tokens, which
+cannot be recovered from pre-pooled feature vectors.
 
-By default, Xenium uses the stratified random-cell split found in the saved
-configs. This is not the manuscript's contiguous spatial-region split. For an
+The Xenium configurations default to a stratified random-cell split. This is not the manuscript's contiguous spatial-region split. For an
 explicit split, set `split_csv` in the config to a CSV with
 `sample,cell_id,poly_idx,split` and exactly one `train` or `val` assignment for
 every cell. Xenium's sample key is `xenium`; skin sample keys are slide stems.
@@ -267,11 +265,11 @@ prepared tables and pretrained backbone versions.
 
 Checkpoints contain trainable heads/pooling/router parameters, not frozen
 pretrained encoder weights. The encoders are reloaded from their saved identifiers.
-No historical checkpoint is bundled. Metrics are reported for each expert and the
+Trained checkpoints are not bundled. Metrics are reported for each expert and the
 fused probability distribution. The classification report's `macro avg` contains
 separate precision, recall, and F1 fields; macro F1 is its `f1-score` entry.
 
-## Tests and provenance
+## Tests and citation
 
 ```bash
 python -m unittest discover -s tests -v
@@ -280,9 +278,8 @@ python -m unittest discover -s tests -v
 Tests use synthetic data and tiny token encoders. They cover probability fusion,
 detached responsibilities and KL direction, gradient flow, annotation formats,
 split integrity, a complete training/reload/evaluation step, and paired attention
-exports. The optional source regression runs when `TRACE_REFERENCE_ROOT` points
-to the original research tree. See `docs/validation.md` for release checks.
+exports. See [validation checks](docs/validation.md) for the tested behavior and
+its scope.
 
-Source-file hashes and compressed annotation checksums are recorded in
-`docs/source_manifest.json`. `CITATION.cff` identifies the accompanying work;
-no publication venue, DOI, or acceptance status is asserted here.
+Please cite the accompanying manuscript when using TRACE. Author and repository
+information is provided in `CITATION.cff`.
