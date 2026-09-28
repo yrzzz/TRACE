@@ -12,14 +12,15 @@ field of view, and an uncertainty-aware router combines the expert predictions.
 This repository provides data preparation, training, evaluation, and evidence-map
 visualization for TRACE.
 
-**Implementation notes:** the supplied implementation and configurations differ
-from parts of the manuscript in key projections, context queries, crop size,
-training schedule, and validation splitting. See [implementation details](docs/implementation.md)
-for the precise settings. The manuscript's spatial split manifest and trained
-checkpoints are not included, so exact reproduction of its reported tables is not
-established by the supplied configurations.
 
 ## Model
+
+![TRACE framework: cell, local, and context experts with uncertainty-aware routing and probability fusion](assets/figures/trace_overview.png)
+
+*Figure 1. Overview of TRACE. Three experts retrieve cell, local, and context
+evidence, and an uncertainty-aware router combines their predictions through
+probability-space fusion. Training uses posterior responsibilities to coordinate
+the experts.*
 
 | Component | Released implementation |
 | --- | --- |
@@ -41,6 +42,15 @@ normalized values.
 The loss is implemented in `losses/coop_moe_loss.py`. Label-free fusion is in
 `losses/fusion.py`; `model(...)["probs"]` is the prediction distribution, and
 `model(...)["logits"]` is its logarithm.
+
+## Evidence maps
+
+![Local and context evidence maps for fibroblast, immune, keratinocyte, malignant epithelial, and airway epithelial cells](assets/figures/trace_evidence_maps.png)
+
+*Figure 2. Evidence maps for five cell types. Within each example, the left and
+right columns show the local and context views. The top row shows the original
+crops, and the bottom row shows the attention overlays. These maps visualize the
+pooling weights used to retrieve evidence.*
 
 ## Installation
 
@@ -79,9 +89,10 @@ The tables contain cell IDs and hierarchical cell-type annotations. The skin
 table excludes unknown cells. Checksums are in `docs/source_manifest.json`;
 see [annotation details](annotations/README.md) for their format and data sources.
 
-**No H&E images, Visium HD labels, polygons, expression matrices, embedding caches,
+**No raw H&E datasets, Visium HD labels, polygons, expression matrices, embedding caches,
 training outputs, or pretrained/trained weights are included.** The manuscript PDF
-is also not part of this repository.
+is also not part of this repository. The two manuscript figures above are included
+as documentation assets.
 
 ## Xenium data format and preparation
 

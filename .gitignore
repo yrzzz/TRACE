@@ -23,3 +23,7 @@ checkpoints/
 *.pdf
 *.ipynb
 .ipynb_checkpoints/
+
+# Manuscript figures used in README (raw images remain ignored).
+!assets/figures/trace_overview.png
+!assets/figures/trace_evidence_maps.png
